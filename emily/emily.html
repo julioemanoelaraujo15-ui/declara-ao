@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Uma Declaração Só pra Você 💌</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#ff6b81;--muted:#94a3b8}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#e6eef8;background:radial-gradient(ellipse at 10% 10%, #071022 0%, var(--bg) 40%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+    .card{width:100%;max-width:920px;background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));border-radius:18px;padding:28px;box-shadow:0 10px 30px rgba(2,6,23,0.6);position:relative;overflow:hidden}
+    header{display:flex;gap:20px;align-items:center}
+    .avatar{width:110px;height:110px;border-radius:14px;flex:0 0 110px;background:linear-gradient(135deg,var(--accent),#ff9fb1);display:grid;place-items:center;color:white;font-weight:700;font-size:22px}
+    h1{margin:0;font-size:28px}
+    p.lead{color:var(--muted);margin:6px 0 0}
+
+    .content{display:grid;grid-template-columns:1fr 360px;gap:24px;margin-top:22px}
+    .box{background:rgba(255,255,255,0.02);padding:18px;border-radius:12px}
+
+    .declaration{min-height:260px;display:flex;align-items:center;justify-content:center;position:relative}
+    .message{max-width:680px;font-size:18px;line-height:1.6;color:#f0f9ff}
+    .type{color:var(--accent);font-weight:700}
+
+    .controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    button{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:10px;color:#e6eef8;cursor:pointer;font-weight:600}
+    button.strong{background:linear-gradient(90deg,var(--accent),#ff9fb1);border:none;color:#081026}
+
+    aside{display:flex;flex-direction:column;gap:12px}
+    .stat{display:flex;align-items:center;gap:10px}
+    .stat .dot{width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,#122033,#071828);display:grid;place-items:center;font-weight:700;color:var(--accent)}
+    .stat small{display:block;color:var(--muted)}
+
+    /* heart background */
+    .heart-bg{position:absolute;right:-80px;top:-120px;transform:rotate(-20deg);opacity:0.08;width:420px;height:420px;background:radial-gradient(circle at 30% 30%, #ff9fb1 0%, transparent 30%), conic-gradient(from 200deg,#ff6b81,#ff9fb1);clip-path:path('M256 464c-18.7 0-36.6-5.6-52.2-16.1C132.3 403.9 64 336 64 256 64 179.3 125.3 112 192 112c32.7 0 62.4 15.7 80 40 17.6-24.3 47.3-40 80-40 66.7 0 128 67.3 128 144 0 80-68.3 147.9-139.8 191.9C292.6 458.4 274.7 464 256 464z');filter:blur(20px)}
+
+    /* small hearts animation */
+    .hearts{position:absolute;left:10px;bottom:-20px;pointer-events:none}
+    .hearts i{position:absolute;width:14px;height:14px;background:var(--accent);transform:rotate(-45deg);border-radius:3px;animation:float 6s linear infinite;opacity:0.85}
+    .hearts i:after,.hearts i:before{content:'';position:absolute;background:var(--accent);width:14px;height:14px;border-radius:50%}
+    .hearts i:before{top:-7px;left:0}
+    .hearts i:after{left:7px;top:0}
+    @keyframes float{0%{transform:translateY(0) scale(0.8) rotate(-45deg);opacity:1}100%{transform:translateY(-420px) scale(1.4) rotate(-45deg);opacity:0}}
+
+    /* responsive */
+    @media (max-width:860px){.content{grid-template-columns:1fr}aside{order:2}.avatar{width:86px;height:86px}}
+  </style>
+</head>
+<body>
+  <div class="card" role="main" aria-label="Declaração romântica">
+    <div class="heart-bg" aria-hidden="true"></div>
+    <header>
+      <div class="avatar" id="avatar">❤️</div>
+      <div>
+        <h1>Uma declaração só pra você</h1>
+        <p class="lead">Abra, leia e sinta — tudo foi pensado com carinho.</p>
+      </div>
+    </header>
+
+    <div class="content">
+      <section class="box">
+        <div class="declaration" id="stage">
+          <div class="message" id="message">
+            <div id="typedLine"></div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="startBtn" class="strong">Ler declaração 💌</button>
+          
+          
+          <button id="download">Baixar página</button>
+        </div>
+      </section>
+
+      <aside>
+        <div class="box stat">
+          <div class="dot">Você</div>
+          <div>
+            <strong>Meu mundo</strong>
+            <small>Desde o momento que sorriu pela primeira vez.</small>
+          </div>
+        </div>
+
+        <div class="box stat">
+          <div class="dot">100%</div>
+          <div>
+            <strong>Amor verdadeiro</strong>
+            <small>Sem letra miúda — apenas coração.</small>
+          </div>
+        </div>
+
+        <div class="box stat">
+          <div class="dot">💫</div>
+          <div>
+            <strong>Promessa</strong>
+            <small>Estar ao seu lado, nos dias grandes e nos pequenos.</small>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="hearts" id="hearts" aria-hidden="true"></div>
+  </div>
+
+ <script>
+// texto da declaração
+const lines = [
+"OII amor da minha vida...", "Queria te dizer que voçe é muito incrivel,  voçe é maravilhosa, sabe, eu quero sempre te mostrar que voçe é a melho pessoa que eu poderia ter na minha vida e me sentir amado, e quero me casar com voçe meu amor!!", " Espero que voçe saiba e sinta a intensidade do meu amor por voçe e te ver feliz, é minha maior felicidade, voçe é o meu proposito minha vida, eu te amo tanto que nao sei como posso demonstrar esse tanto de amor que eu sinto meu bem..", "Quando saimos pela primeira vez, eu estava nervoso, eu nao sabia que estava junto com a mulher que vou passar o resto da minha vida", " Saiba que voçe é minha maior prioridade, e eu quero sempre amar voçe, eu quero e vou, obrigado por me proporcionar tamanha felicdade que nao sei explicar, EU TE AMO!!", "Voce é a melhor pessoa que eu poderia conhecer, eu te quero pra vida.", "Com todo meu carinho e Amor,\n do amor da sua vida: Júlio"
+];
+
+const stage = document.getElementById("stage");
+const startBtn = document.getElementById("startBtn");
+const controls = document.querySelector(".controls");
+const heartsContainer = document.getElementById("hearts");
+const download = document.getElementById("download");
+
+// Função para resetar a área de texto
+function resetDeclaration() {
+  stage.innerHTML = `
+    <div class="message">
+      <div id="typedLine"></div>
+    </div>
+  `;
+}
+
+resetDeclaration();
+
+// Criar botão surpresa
+const surpriseBtn = document.createElement("button");
+surpriseBtn.textContent = "Mostrar surpresa 🎁";
+surpriseBtn.className = "strong";
+controls.prepend(surpriseBtn);
+
+// Mostrar foto
+surpriseBtn.addEventListener("click", () => {
+  stage.innerHTML = `
+    <div style="text-align:center">
+      <img src="emily.jpg" alt="nossa foto"
+      style="max-width:260px;border-radius:12px;border:6px solid rgba(255,255,255,0.06)">
+      <h3 style="margin:14px 0 8px;color:#ffd6e0">Surpresa! 💖</h3>
+      <p style="color:var(--muted);margin:0">Você é especial demais pra mim, eu te amo.</p>
+    </div>
+  `;
+});
+
+// Animação de digitação
+startBtn.addEventListener("click", () => {
+  resetDeclaration();
+
+  let i = 0;
+
+  function typeLine() {
+    if (i >= lines.length) return;
+
+    const box = document.getElementById("typedLine");
+    const text = lines[i];
+    let j = 0;
+
+    const interval = setInterval(() => {
+      box.textContent += text[j];
+      j++;
+
+      if (j >= text.length) {
+        clearInterval(interval);
+        box.innerHTML += "<br><br>";
+        i++;
+        setTimeout(typeLine, 300);
+      }
+    }, 30);
+  }
+
+  typeLine();
+});
+
+// Criar corações flutuantes
+function createHearts(n) {
+  for (let k = 0; k < n; k++) {
+    const el = document.createElement("i");
+    el.style.left = Math.random() * 100 + "px";
+    el.style.bottom = Math.random() * 40 + "px";
+    el.style.animationDuration = 4 + Math.random() * 6 + "s";
+    el.style.opacity = 0.8 + Math.random() * 0.4;
+    heartsContainer.appendChild(el);
+  }
+}
+
+createHearts(10);
+
+// Download da página
+download.addEventListener("click", () => {
+  const html = "<!doctype html>" + document.documentElement.outerHTML;
+  const blob = new Blob([html], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "declaracao-para-voce.html";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+});
+</script>
+
+</body>
+</html>
